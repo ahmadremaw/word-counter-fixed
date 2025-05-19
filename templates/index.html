@@ -1,15 +1,67 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>عداد الكلمات والحروف</title>
-<style>
-    /* القاعدة العامة */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>عداد الكلمات والحروف</title>
+  <style>
+    /* === تنسيق القائمة === */
+    .navbar {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 0;
+    }
+
+    .nav-container {
+        max-width: 800px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links li a {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .nav-links li a:hover {
+        color: #dbefff;
+    }
+
+    /* === الوضع الداكن للقائمة === */
+    body.dark .navbar {
+        background-color: #1e1e1e;
+    }
+
+    body.dark .nav-links li a {
+        color: #f0f0f0;
+    }
+
+    body.dark .nav-links li a:hover {
+        color: #90cdf4;
+    }
+
+    /* === القاعدة العامة === */
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
-        padding: 20px;
+        padding: 0;
         background-color: #f0f0f0;
         color: #333;
         transition: background-color 0.3s, color 0.3s;
@@ -25,6 +77,7 @@
         padding: 20px;
         border-radius: 12px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-top: 20px;
     }
 
     /* حقل الإدخال */
@@ -35,9 +88,10 @@
         border-radius: 6px;
         border: 1px solid #ccc;
         resize: vertical;
+        min-height: 200px;
     }
 
-    /* نتيجة التحليل */
+    /* نتائج التحليل */
     .results {
         margin-top: 20px;
         background: #e9ecef;
@@ -45,7 +99,7 @@
         border-radius: 6px;
     }
 
-    /* التبديل بين الوضعين */
+    /* تبديل الوضع */
     .toggle-mode {
         margin-bottom: 20px;
         display: flex;
@@ -60,7 +114,6 @@
         cursor: pointer;
     }
 
-    /* سويتش مظهر */
     .switch {
         position: relative;
         display: inline-block;
@@ -124,63 +177,87 @@
         background-color: #444;
     }
 
-    /* دعم الشاشات الصغيرة */
+    /* استجابة الموبايل */
     @media (max-width: 600px) {
+        .nav-container {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .nav-links {
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
         textarea {
             font-size: 0.9em;
-            height: 150px;
         }
     }
-</style>
+  </style>
 </head>
 <body>
 
+<!-- القائمة -->
+<nav class="navbar">
+  <div class="nav-container">
+    <span class="logo">موقعي</span>
+    <ul class="nav-links">
+      <li><a href="#">تحديد اللغة</a></li>
+      <li><a href="#">اتصل بنا</a></li>
+      <li><a href="#">سياسة الخصوصية</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- المحتوى الرئيسي -->
 <div class="container">
-    <div class="toggle-mode">
-        <label class="switch">
-            <input type="checkbox" id="dark-mode-toggle" />
-            <span class="slider"></span>
-        </label>
-        <span>الوضع الداكن</span>
-    </div>
+  <div class="toggle-mode">
+    <label class="switch">
+      <input type="checkbox" id="dark-mode-toggle" />
+      <span class="slider"></span>
+    </label>
+    <span>الوضع الداكن</span>
+  </div>
 
-    <h1>عداد الكلمات والحروف</h1>
-    <textarea id="text-input" placeholder="اكتب نصك هنا..."></textarea>
+  <h1>عداد الكلمات والحروف</h1>
+  <textarea id="text-input" placeholder="اكتب نصك هنا..."></textarea>
 
-    <div class="results">
-        <p id="word-count">عدد الكلمات: 0</p>
-        <p id="char-count">عدد الحروف: 0</p>
-        <p id="language">اللغة: غير معروفة</p>
-    </div>
+  <div class="results">
+    <p id="word-count">عدد الكلمات: 0</p>
+    <p id="char-count">عدد الحروف: 0</p>
+    <p id="language">اللغة: غير معروفة</p>
+  </div>
 </div>
 
+<!-- سكربت -->
 <script>
-    const textarea = document.getElementById('text-input');
-    const wordCount = document.getElementById('word-count');
-    const charCount = document.getElementById('char-count');
-    const language = document.getElementById('language');
-    const darkToggle = document.getElementById('dark-mode-toggle');
+  const textarea = document.getElementById('text-input');
+  const wordCount = document.getElementById('word-count');
+  const charCount = document.getElementById('char-count');
+  const language = document.getElementById('language');
+  const darkToggle = document.getElementById('dark-mode-toggle');
 
-    textarea.addEventListener('input', () => {
-        const text = textarea.value.trim();
-        const words = text === '' ? 0 : text.split(/\s+/).length;
-        const chars = text.replace(/\s/g, '').length;
+  textarea.addEventListener('input', () => {
+    const text = textarea.value.trim();
+    const words = text === '' ? 0 : text.split(/\s+/).length;
+    const chars = text.replace(/\s/g, '').length;
 
-        let lang = 'غير معروفة';
-        if (/[ء-ي]/.test(text)) {
-            lang = 'عربية';
-        } else if (/[a-zA-Z]/.test(text)) {
-            lang = 'إنجليزية';
-        }
+    let lang = 'غير معروفة';
+    if (/[ء-ي]/.test(text)) {
+      lang = 'عربية';
+    } else if (/[a-zA-Z]/.test(text)) {
+      lang = 'إنجليزية';
+    }
 
-        wordCount.textContent = `عدد الكلمات: ${words}`;
-        charCount.textContent = `عدد الحروف: ${chars}`;
-        language.textContent = `اللغة: ${lang}`;
-    });
+    wordCount.textContent = `عدد الكلمات: ${words}`;
+    charCount.textContent = `عدد الحروف: ${chars}`;
+    language.textContent = `اللغة: ${lang}`;
+  });
 
-    darkToggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark', darkToggle.checked);
-    });
+  darkToggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark', darkToggle.checked);
+  });
 </script>
 
 </body>
