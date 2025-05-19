@@ -2,14 +2,15 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>عداد الكلمات</title>
+    <title>عداد الكلمات والحروف</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             font-family: Arial, sans-serif;
             direction: rtl;
             text-align: right;
             padding: 20px;
-            background-color: #f0f0f0;
+            background-color: #f9f9f9;
         }
 
         textarea {
@@ -17,27 +18,60 @@
             height: 200px;
             padding: 10px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
-        p {
+        .counter {
             font-size: 18px;
             margin-top: 10px;
+        }
+
+        .language {
+            font-size: 16px;
+            margin-top: 5px;
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            textarea {
+                height: 150px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>عداد الكلمات</h1>
+    <h1>عداد الكلمات والحروف</h1>
     <textarea id="text-input" placeholder="اكتب نصك هنا..."></textarea>
-    <p id="word-count">عدد الكلمات: 0</p>
+    <p class="counter" id="word-count">عدد الكلمات: 0</p>
+    <p class="counter" id="char-count">عدد الحروف: 0</p>
+    <p class="language" id="language">اللغة: غير معروفة</p>
 
     <script>
         const textarea = document.getElementById('text-input');
         const wordCount = document.getElementById('word-count');
+        const charCount = document.getElementById('char-count');
+        const language = document.getElementById('language');
 
         textarea.addEventListener('input', () => {
             const text = textarea.value.trim();
             const words = text === '' ? 0 : text.split(/\s+/).length;
+            const chars = text.replace(/\s/g, '').length;
+
+            // كشف اللغة بشكل بدائي
+            let lang = 'غير معروفة';
+            if (/[ء-ي]/.test(text)) {
+                lang = 'عربية';
+            } else if (/[a-zA-Z]/.test(text)) {
+                lang = 'إنجليزية';
+            }
+
             wordCount.textContent = `عدد الكلمات: ${words}`;
+            charCount.textContent = `عدد الحروف: ${chars}`;
+            language.textContent = `اللغة: ${lang}`;
         });
     </script>
 </body>
