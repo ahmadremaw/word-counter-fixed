@@ -1,59 +1,90 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        :root {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --card-bg: #fff;
+        }
+        body.dark {
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --card-bg: #1e1e1e;
+        }
         body {
-            font-family: sans-serif;
-            background: #1e1e1e;
-            color: #fff;
-            padding: 20px;
             margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         textarea {
             width: 100%;
             height: 150px;
-            font-size: 16px;
             padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            resize: vertical;
         }
         button {
-            padding: 10px 20px;
-            margin-top: 10px;
-            font-size: 16px;
-            background-color: #007bff;
+            background-color: #007BFF;
             color: white;
+            padding: 10px 16px;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
+            margin-top: 10px;
         }
         button:hover {
             background-color: #0056b3;
         }
-        .result {
+        .results {
             margin-top: 20px;
         }
-        .misspelled {
-            color: #ff4d4d;
+        .toggle-mode {
+            float: left;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>عداد الكلمات والحروف مع تحديد اللغة</h1>
-    <form method="post">
-        <textarea name="text">{{ text }}</textarea><br>
-        <button type="submit">احسب</button>
-    </form>
+    <div class="container">
+        <button class="toggle-mode" onclick="toggleDarkMode()">تبديل الوضع</button>
+        <h1>عداد الكلمات والحروف</h1>
+        <form method="post">
+            <textarea name="text" placeholder="اكتب هنا...">{{ text }}</textarea><br>
+            <button type="submit">احسب</button>
+        </form>
 
-    {% if word_count is not none %}
-    <div class="result">
-        <p>عدد الكلمات: {{ word_count }}</p>
-        <p>عدد الأحرف (بدون فراغات): {{ char_count }}</p>
-        <p>اللغة المتوقعة: {{ language }}</p>
-        {% if misspelled %}
-            <p class="misspelled">كلمات غير صحيحة (إنجليزية): {{ misspelled|join(', ') }}</p>
-        {% endif %}
+        <div class="results">
+            {% if word_count is not none %}
+                <p><strong>عدد الكلمات:</strong> {{ word_count }}</p>
+                <p><strong>عدد الحروف:</strong> {{ char_count }}</p>
+                <p><strong>اللغة:</strong> {{ language }}</p>
+                {% if misspelled %}
+                    <p><strong>كلمات خاطئة (بالإنجليزية فقط):</strong> {{ misspelled | join(', ') }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark');
+        }
+    </script>
 </body>
 </html>
