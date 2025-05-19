@@ -3,26 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 20px;
-            background: #f9f9f9;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+            transition: 0.3s;
         }
-        nav {
-            background: #333;
-            padding: 10px;
-            margin-bottom: 20px;
+
+        .dark-mode {
+            background-color: #121212;
+            color: #fff;
         }
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-        }
+
         textarea {
             width: 100%;
             max-width: 600px;
+            height: 200px;
         }
+
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
         @media (max-width: 600px) {
             textarea {
                 width: 100%;
@@ -31,25 +48,23 @@
     </style>
 </head>
 <body>
-
-    <nav>
-        <a href="/">الرئيسية</a>
-        <a href="/pages/about">حول</a>
-        <a href="/pages/contact">اتصل بنا</a>
-        <a href="/pages/privacy">الخصوصية</a>
-        <a href="/pages/terms">الشروط</a>
-    </nav>
-
-    <h1>احسب عدد الكلمات والحروف</h1>
+    <button class="toggle" onclick="toggleDarkMode()">الوضع الداكن</button>
+    <h1>عداد الكلمات والحروف</h1>
     <form method="post">
-        <textarea name="text" rows="10" placeholder="اكتب النص هنا..."></textarea><br>
+        <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea><br>
         <button type="submit">احسب</button>
     </form>
 
     {% if word_count is not none %}
         <h2>عدد الكلمات: {{ word_count }}</h2>
-        <h2>عدد الحروف: {{ char_count }}</h2>
+        <h2>عدد الحروف (بدون الفراغات): {{ char_count }}</h2>
+        <h2>اللغة المتوقعة: {{ language }}</h2>
     {% endif %}
 
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
 </body>
 </html>
