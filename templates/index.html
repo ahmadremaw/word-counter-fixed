@@ -1,18 +1,80 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 1rem;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>احسب عدد الكلمات والحروف</h1>
-    <form method="post">
-        <textarea name="text" rows="10" cols="50"></textarea><br>
-        <button type="submit">احسب</button>
-    </form>
-    {% if word_count is not none %}
-        <h2>عدد الكلمات: {{ word_count }}</h2>
-        <h2>عدد الحروف: {{ char_count }}</h2>
-    {% endif %}
+    <div class="container">
+        <h1>احسب عدد الكلمات والحروف</h1>
+        <form method="post">
+            <textarea name="text" rows="10" placeholder="اكتب النص هنا..."></textarea>
+            <button type="submit">احسب</button>
+        </form>
+        {% if word_count is not none %}
+        <div class="result">
+            <p>عدد الكلمات: {{ word_count }}</p>
+            <p>عدد الحروف: {{ char_count }}</p>
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>
