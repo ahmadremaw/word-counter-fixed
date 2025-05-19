@@ -1,2 +1,3 @@
 Flask==2.3.2
-gunicorn
+langdetect==1.0.9
+pyspellchecker==0.7.0
