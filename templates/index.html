@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
             font-family: 'Tahoma', sans-serif;
             background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
             margin: 0;
             padding: 0;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
         }
 
         .container {
@@ -60,21 +61,66 @@
             color: #333;
             font-weight: bold;
         }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #ddd;
+        }
+
+        .dark-mode .container {
+            background-color: #2e2e2e;
+            color: #ddd;
+        }
+
+        .toggle-dark {
+            margin: 1rem auto;
+            display: block;
+            text-align: center;
+            color: #555;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .copy-btn {
+            background-color: #28a745;
+        }
+
+        .copy-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>احسب عدد الكلمات والحروف</h1>
         <form method="post">
-            <textarea name="text" rows="10" placeholder="اكتب النص هنا..."></textarea>
+            <textarea name="text" rows="10" placeholder="اكتب النص هنا...">{{ original_text }}</textarea>
             <button type="submit">احسب</button>
         </form>
         {% if word_count is not none %}
-        <div class="result">
+        <div class="result" id="results">
             <p>عدد الكلمات: {{ word_count }}</p>
             <p>عدد الحروف: {{ char_count }}</p>
+            <p>عدد الحروف بدون الفراغات: {{ char_count_no_spaces }}</p>
+            <p>اللغة المكتشفة: {{ detected_lang }}</p>
+            <p>النص المصحح:</p>
+            <p>{{ corrected_text }}</p>
+            <button class="copy-btn" onclick="copyResults()">نسخ النتائج</button>
         </div>
         {% endif %}
+        <div class="toggle-dark" onclick="toggleDarkMode()">تبديل الوضع الداكن</div>
     </div>
+
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        function copyResults() {
+            const results = document.getElementById('results').innerText;
+            navigator.clipboard.writeText(results);
+            alert("تم نسخ النتائج");
+        }
+    </script>
 </body>
 </html>
