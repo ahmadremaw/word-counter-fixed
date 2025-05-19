@@ -1,3 +1,4 @@
+/* القاعدة العامة */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -7,6 +8,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
+/* الحاوية الرئيسية */
 .container {
     max-width: 800px;
     margin: auto;
@@ -16,6 +18,7 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* حقل الإدخال */
 textarea {
     width: 100%;
     padding: 10px;
@@ -25,6 +28,7 @@ textarea {
     resize: vertical;
 }
 
+/* زر الإرسال */
 button {
     padding: 10px 20px;
     font-size: 1em;
@@ -40,36 +44,100 @@ button:hover {
     background-color: #0056b3;
 }
 
-.result {
+/* نتيجة التحليل */
+.results {
     margin-top: 20px;
     background: #e9ecef;
     padding: 15px;
     border-radius: 6px;
 }
 
-.toggle-mode {
-    margin-top: 10px;
-    cursor: pointer;
-    font-size: 0.9em;
-    color: #007bff;
-    text-align: right;
+/* نص مميز */
+.highlight {
+    color: red;
+    font-weight: bold;
 }
 
-.dark-mode {
+/* التبديل بين الوضعين */
+.toggle-mode {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* سويتش مظهر */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* الوضع الداكن */
+body.dark {
     background-color: #1e1e1e;
     color: #f0f0f0;
 }
 
-.dark-mode .container {
+body.dark .container {
     background-color: #2c2c2c;
 }
 
-.dark-mode textarea {
+body.dark textarea {
     background-color: #3a3a3a;
     color: #fff;
     border: 1px solid #555;
 }
 
-.dark-mode .result {
+body.dark .results {
     background-color: #444;
+}
+
+/* دعم الشاشات الصغيرة */
+@media (max-width: 600px) {
+    textarea {
+        font-size: 0.9em;
+    }
+
+    button {
+        width: 100%;
+    }
 }
