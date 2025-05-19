@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from langdetect import detect
+from spellchecker import SpellChecker
 import os
 
 app = Flask(__name__)
@@ -9,8 +10,9 @@ def index():
     word_count = None
     char_count = None
     language = None
+    misspelled = []
     text = ""
-    
+
     if request.method == "POST":
         text = request.form["text"]
         word_count = len(text.split())
@@ -20,7 +22,13 @@ def index():
         except:
             language = "غير معروف"
 
-    return render_template("index.html", word_count=word_count, char_count=char_count, language=language, text=text)
+        # التدقيق الإملائي للإنجليزية فقط حالياً
+        if language == "en":
+            spell = SpellChecker()
+            misspelled = spell.unknown(text.split())
+
+    return render_template("index.html", word_count=word_count, char_count=char_count,
+                           language=language, text=text, misspelled=misspelled)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
