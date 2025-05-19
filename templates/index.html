@@ -1,264 +1,44 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>عداد الكلمات والحروف</title>
-  <style>
-    /* === تنسيق القائمة === */
-    .navbar {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 0;
-    }
-
-    .nav-container {
-        max-width: 800px;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 20px;
-    }
-
-    .logo {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-
-    .nav-links {
-        list-style: none;
-        display: flex;
-        gap: 15px;
-        margin: 0;
-        padding: 0;
-    }
-
-    .nav-links li a {
-        color: white;
-        text-decoration: none;
-        transition: color 0.3s;
-    }
-
-    .nav-links li a:hover {
-        color: #dbefff;
-    }
-
-    /* === الوضع الداكن للقائمة === */
-    body.dark .navbar {
-        background-color: #1e1e1e;
-    }
-
-    body.dark .nav-links li a {
-        color: #f0f0f0;
-    }
-
-    body.dark .nav-links li a:hover {
-        color: #90cdf4;
-    }
-
-    /* === القاعدة العامة === */
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-        color: #333;
-        transition: background-color 0.3s, color 0.3s;
-        direction: rtl;
-        text-align: right;
-    }
-
-    /* الحاوية الرئيسية */
-    .container {
-        max-width: 800px;
-        margin: auto;
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        margin-top: 20px;
-    }
-
-    /* حقل الإدخال */
-    textarea {
-        width: 100%;
-        padding: 10px;
-        font-size: 1em;
-        border-radius: 6px;
-        border: 1px solid #ccc;
-        resize: vertical;
-        min-height: 200px;
-    }
-
-    /* نتائج التحليل */
-    .results {
-        margin-top: 20px;
-        background: #e9ecef;
-        padding: 15px;
-        border-radius: 6px;
-    }
-
-    /* تبديل الوضع */
-    .toggle-mode {
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 10px;
-        font-size: 1em;
-        user-select: none;
-    }
-
-    .toggle-mode label {
-        cursor: pointer;
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 50px;
-        height: 24px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0; left: 0;
-        right: 0; bottom: 0;
-        background-color: #ccc;
-        transition: 0.4s;
-        border-radius: 24px;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 3px;
-        bottom: 3px;
-        background-color: white;
-        transition: 0.4s;
-        border-radius: 50%;
-    }
-
-    input:checked + .slider {
-        background-color: #2196F3;
-    }
-
-    input:checked + .slider:before {
-        transform: translateX(26px);
-    }
-
-    /* الوضع الداكن */
-    body.dark {
-        background-color: #1e1e1e;
-        color: #f0f0f0;
-    }
-
-    body.dark .container {
-        background-color: #2c2c2c;
-    }
-
-    body.dark textarea {
-        background-color: #3a3a3a;
-        color: #fff;
-        border: 1px solid #555;
-    }
-
-    body.dark .results {
-        background-color: #444;
-    }
-
-    /* استجابة الموبايل */
-    @media (max-width: 600px) {
-        .nav-container {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .nav-links {
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        textarea {
-            font-size: 0.9em;
-        }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>عداد الكلمات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<!-- القائمة -->
-<nav class="navbar">
-  <div class="nav-container">
-    <span class="logo">موقعي</span>
-    <ul class="nav-links">
-      <li><a href="#">تحديد اللغة</a></li>
-      <li><a href="#">اتصل بنا</a></li>
-      <li><a href="#">سياسة الخصوصية</a></li>
-    </ul>
-  </div>
-</nav>
+<!-- زر القائمة الجانبية (Hamburger) -->
+<div class="hamburger" onclick="toggleSidebar()">&#9776;</div>
 
-<!-- المحتوى الرئيسي -->
-<div class="container">
-  <div class="toggle-mode">
-    <label class="switch">
-      <input type="checkbox" id="dark-mode-toggle" />
-      <span class="slider"></span>
-    </label>
-    <span>الوضع الداكن</span>
-  </div>
-
-  <h1>عداد الكلمات والحروف</h1>
-  <textarea id="text-input" placeholder="اكتب نصك هنا..."></textarea>
-
-  <div class="results">
-    <p id="word-count">عدد الكلمات: 0</p>
-    <p id="char-count">عدد الحروف: 0</p>
-    <p id="language">اللغة: غير معروفة</p>
-  </div>
+<!-- القائمة الجانبية -->
+<div id="sidebar" class="sidebar">
+  <a href="{{ url_for('index') }}">الرئيسية</a>
+  <a href="{{ url_for('about') }}">من نحن</a>
+  <a href="{{ url_for('contact') }}">اتصل بنا</a>
+  <a href="{{ url_for('privacy') }}">سياسة الخصوصية</a>
+  <a href="{{ url_for('terms') }}">الشروط والأحكام</a>
 </div>
 
-<!-- سكربت -->
+<div class="container">
+    <h1>عداد الكلمات والنصوص</h1>
+    <form method="post">
+        <textarea name="text" placeholder="أدخل النص هنا...">{{ text }}</textarea>
+        <button type="submit">تحليل</button>
+    </form>
+
+    {% if word_count is not none %}
+    <div class="results">
+        <p>عدد الكلمات: <span class="highlight">{{ word_count }}</span></p>
+        <p>عدد الحروف: <span class="highlight">{{ char_count }}</span></p>
+        <p>اللغة المتوقعة: <span class="highlight">{{ language }}</span></p>
+    </div>
+    {% endif %}
+</div>
+
 <script>
-  const textarea = document.getElementById('text-input');
-  const wordCount = document.getElementById('word-count');
-  const charCount = document.getElementById('char-count');
-  const language = document.getElementById('language');
-  const darkToggle = document.getElementById('dark-mode-toggle');
-
-  textarea.addEventListener('input', () => {
-    const text = textarea.value.trim();
-    const words = text === '' ? 0 : text.split(/\s+/).length;
-    const chars = text.replace(/\s/g, '').length;
-
-    let lang = 'غير معروفة';
-    if (/[ء-ي]/.test(text)) {
-      lang = 'عربية';
-    } else if (/[a-zA-Z]/.test(text)) {
-      lang = 'إنجليزية';
-    }
-
-    wordCount.textContent = `عدد الكلمات: ${words}`;
-    charCount.textContent = `عدد الحروف: ${chars}`;
-    language.textContent = `اللغة: ${lang}`;
-  });
-
-  darkToggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark', darkToggle.checked);
-  });
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
 </script>
-
 </body>
 </html>
