@@ -1,9 +1,10 @@
-<!DOCTYPE html><html lang="ar">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عداد الكلمات</title>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -13,34 +14,34 @@
                 <span class="slider round"></span>
             </label>
             <span>الوضع الداكن</span>
-        </div><h1>احسب عدد الكلمات والحروف</h1>
-    <form method="post">
-        <textarea name="text" rows="10" cols="50">{{ text }}</textarea><br>
-        <button type="submit">احسب</button>
-    </form>
-
-    {% if word_count is not none %}
-        <div class="results">
-            <p><strong>عدد الكلمات:</strong> {{ word_count }}</p>
-            <p><strong>عدد الحروف:</strong> {{ char_count }}</p>
-            <p><strong>اللغة:</strong> {{ language }}</p>
-            {% if misspelled %}
-                <p><strong>كلمات مشكوك بها:</strong> 
-                    <span class="highlight">
-                        {{ misspelled | join(", ") }}
-                    </span>
-                </p>
-            {% endif %}
         </div>
-    {% endif %}
-</div>
 
-<script>
-    const toggle = document.getElementById('darkModeToggle');
-    toggle.addEventListener('change', () => {
-        document.body.classList.toggle('dark');
-    });
-</script>
+        <h1>احسب عدد الكلمات والحروف</h1>
 
+        <form method="post">
+            <textarea name="text" rows="10" cols="50">{{ text }}</textarea><br>
+            <button type="submit">احسب</button>
+        </form>
+
+        {% if word_count is not none %}
+            <div class="results">
+                <p><strong>عدد الكلمات:</strong> {{ word_count }}</p>
+                <p><strong>عدد الحروف:</strong> {{ char_count }}</p>
+                <p><strong>اللغة:</strong> {{ language }}</p>
+                {% if misspelled %}
+                    <p><strong>كلمات مشكوك بها:</strong>
+                        <span class="highlight">{{ misspelled | join(", ") }}</span>
+                    </p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const toggle = document.getElementById('darkModeToggle');
+        toggle.addEventListener('change', () => {
+            document.body.classList.toggle('dark');
+        });
+    </script>
 </body>
 </html>
