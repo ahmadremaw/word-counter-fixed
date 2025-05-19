@@ -3,68 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 20px;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-            transition: 0.3s;
-        }
-
-        .dark-mode {
-            background-color: #121212;
+            font-family: sans-serif;
+            background: #1e1e1e;
             color: #fff;
+            padding: 20px;
+            margin: 0;
         }
-
         textarea {
             width: 100%;
-            max-width: 600px;
-            height: 200px;
+            height: 150px;
+            font-size: 16px;
+            padding: 10px;
         }
-
         button {
             padding: 10px 20px;
             margin-top: 10px;
-            background-color: #4CAF50;
+            font-size: 16px;
+            background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
         }
-
-        .toggle {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        button:hover {
+            background-color: #0056b3;
         }
-
-        @media (max-width: 600px) {
-            textarea {
-                width: 100%;
-            }
+        .result {
+            margin-top: 20px;
+        }
+        .misspelled {
+            color: #ff4d4d;
         }
     </style>
 </head>
 <body>
-    <button class="toggle" onclick="toggleDarkMode()">الوضع الداكن</button>
-    <h1>عداد الكلمات والحروف</h1>
+    <h1>عداد الكلمات والحروف مع تحديد اللغة</h1>
     <form method="post">
-        <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea><br>
+        <textarea name="text">{{ text }}</textarea><br>
         <button type="submit">احسب</button>
     </form>
 
     {% if word_count is not none %}
-        <h2>عدد الكلمات: {{ word_count }}</h2>
-        <h2>عدد الحروف (بدون الفراغات): {{ char_count }}</h2>
-        <h2>اللغة المتوقعة: {{ language }}</h2>
+    <div class="result">
+        <p>عدد الكلمات: {{ word_count }}</p>
+        <p>عدد الأحرف (بدون فراغات): {{ char_count }}</p>
+        <p>اللغة المتوقعة: {{ language }}</p>
+        {% if misspelled %}
+            <p class="misspelled">كلمات غير صحيحة (إنجليزية): {{ misspelled|join(', ') }}</p>
+        {% endif %}
+    </div>
     {% endif %}
-
-    <script>
-        function toggleDarkMode() {
-            document.body.classList.toggle("dark-mode");
-        }
-    </script>
 </body>
 </html>
