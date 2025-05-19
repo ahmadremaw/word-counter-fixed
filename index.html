@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>عداد الكلمات</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f9f9f9; }
+        textarea { width: 100%; padding: 10px; }
+        button { padding: 10px 20px; margin-top: 10px; }
+        nav a { margin: 0 10px; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">الرئيسية</a>
+        <a href="/about">من نحن</a>
+        <a href="/contact">اتصل بنا</a>
+        <a href="/privacy">الخصوصية</a>
+        <a href="/terms">الشروط</a>
+    </nav>
+    <h1>احسب عدد الكلمات والحروف</h1>
+    <form method="post">
+        <textarea name="text" rows="10"></textarea><br>
+        <button type="submit">احسب</button>
+    </form>
+    {% if word_count is not none %}
+        <h2>عدد الكلمات: {{ word_count }}</h2>
+        <h2>عدد الحروف: {{ char_count }}</h2>
+    {% endif %}
+</body>
+</html>

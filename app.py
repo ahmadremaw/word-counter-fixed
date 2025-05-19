@@ -1,39 +1,31 @@
 from flask import Flask, render_template, request
-from langdetect import detect
-from textblob import TextBlob
 
 app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    word_count = char_count = char_count_no_spaces = None
-    detected_lang = corrected_text = None
-    original_text = ""
-
+    word_count = char_count = None
     if request.method == "POST":
-        original_text = request.form["text"]
-        word_count = len(original_text.split())
-        char_count = len(original_text)
-        char_count_no_spaces = len(original_text.replace(" ", ""))
-        
-        # كشف اللغة
-        try:
-            detected_lang = detect(original_text)
-        except:
-            detected_lang = "غير معروفة"
+        text = request.form["text"]
+        word_count = len(text.split())
+        char_count = len(text)
+    return render_template("index.html", word_count=word_count, char_count=char_count)
 
-        # تصحيح إملائي
-        corrected_text = str(TextBlob(original_text).correct())
+@app.route("/about")
+def about():
+    return render_template("pages/about.html")
 
-    return render_template(
-        "index.html",
-        word_count=word_count,
-        char_count=char_count,
-        char_count_no_spaces=char_count_no_spaces,
-        detected_lang=detected_lang,
-        corrected_text=corrected_text,
-        original_text=original_text
-    )
+@app.route("/contact")
+def contact():
+    return render_template("pages/contact.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("pages/privacy.html")
+
+@app.route("/terms")
+def terms():
+    return render_template("pages/terms.html")
 
 if __name__ == "__main__":
     import os
