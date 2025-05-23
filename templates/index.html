@@ -1,44 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <title>عداد الكلمات</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<!-- زر القائمة الجانبية (Hamburger) -->
-<div class="hamburger" onclick="toggleSidebar()">&#9776;</div>
-
-<!-- القائمة الجانبية -->
-<div id="sidebar" class="sidebar">
-  <a href="{{ url_for('index') }}">الرئيسية</a>
-  <a href="{{ url_for('about') }}">من نحن</a>
-  <a href="{{ url_for('contact') }}">اتصل بنا</a>
-  <a href="{{ url_for('privacy') }}">سياسة الخصوصية</a>
-  <a href="{{ url_for('terms') }}">الشروط والأحكام</a>
-</div>
-
-<div class="container">
-    <h1>عداد الكلمات والنصوص</h1>
-    <form method="post">
-        <textarea name="text" placeholder="أدخل النص هنا...">{{ text }}</textarea>
-        <button type="submit">تحليل</button>
-    </form>
-
-    {% if word_count is not none %}
-    <div class="results">
-        <p>عدد الكلمات: <span class="highlight">{{ word_count }}</span></p>
-        <p>عدد الحروف: <span class="highlight">{{ char_count }}</span></p>
-        <p>اللغة المتوقعة: <span class="highlight">{{ language }}</span></p>
+    <div class="container">
+        <h1>عداد الكلمات</h1>
+        <form method="POST">
+            <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea>
+            <button type="submit">احسب الكلمات</button>
+        </form>
+        {% if word_count is not none %}
+            <div class="result">
+                عدد الكلمات: <strong>{{ word_count }}</strong>
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
-
-<script>
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("active");
-}
-</script>
 </body>
 </html>
