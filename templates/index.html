@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <title>عداد الكلمات</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <h1>عداد الكلمات</h1>
-        <form method="POST">
-            <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea>
-            <button type="submit">احسب الكلمات</button>
-        </form>
-        {% if word_count is not none %}
-            <div class="result">
-                عدد الكلمات: <strong>{{ word_count }}</strong>
-            </div>
-        {% endif %}
+{% extends "layout.html" %}
+{% block content %}
+<h1>عداد الكلمات</h1>
+<form method="POST">
+    <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea>
+    <button type="submit">احسب الكلمات</button>
+</form>
+{% if word_count is not none %}
+    <div class="result">
+        عدد الكلمات: <strong>{{ word_count }}</strong>
     </div>
-</body>
-</html>
+{% endif %}
+{% endblock %}
