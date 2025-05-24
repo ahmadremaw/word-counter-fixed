@@ -1,36 +1,47 @@
-/* Overlay for mobile menu */
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 900;
+body {
+    font-family: 'Cairo', sans-serif;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-.overlay.active {
-    display: block;
+.page-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
 }
 
-/* Sidebar adjustments */
-@media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(100%);
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100%;
-        background: #f4f4f4;
-        z-index: 1000;
-        width: 70%;
-        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar.active {
-        transform: translateX(0);
-    }
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    margin-bottom: 10px;
 }
 
+button {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+}
 
+.results {
+    margin-top: 20px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.dark-mode-toggle {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
