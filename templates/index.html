@@ -1,31 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>عداد الكلمات</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
 <body>
-    <button class="menu-toggle" onclick="toggleSidebar()">☰ القائمة</button>
+    <div class="page-container">
+        <h1>احسب عدد الكلمات والحروف</h1>
+        <form method="post">
+            <textarea name="text" rows="6" placeholder="أدخل النص هنا...">{{ request.form.get('text', '') }}</textarea>
+            <button type="submit">احسب</button>
+        </form>
 
-    <!-- Overlay -->
-    <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+        {% if word_count is not none %}
+        <div class="results">
+            <p>عدد الكلمات: {{ word_count }}</p>
+            <p>عدد الحروف: {{ char_count }}</p>
+            <p>عدد الحروف بدون الفراغات: {{ char_count_no_spaces }}</p>
+            <p>اللغة المكتشفة: {{ lang_detected }}</p>
+            {% if corrected_text %}
+            <p>النص المصحح:</p>
+            <p>{{ corrected_text }}</p>
+            {% endif %}
+            <button onclick="copyResults()">نسخ النتائج</button>
+        </div>
+        {% endif %}
 
-    <div class="layout">
-        <nav class="sidebar" id="sidebar">
-            <h2>القائمة</h2>
-            <ul>
-                <li><a href="/">الرئيسية</a></li>
-                <li><a href="/pages/word-counter">عداد الكلمات</a></li>
-                <li><a href="/about">عن المشروع</a></li>
-                <li><a href="/contact">تواصل معنا</a></li>
-            </ul>
-        </nav>
-
-        <div class="container">
-            {% block content %}{% endblock %}
+        <div class="dark-mode-toggle">
+            <a href="/toggle-theme">تبديل الوضع الداكن</a>
         </div>
     </div>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
+        function copyResults() {
+            const results = document.querySelector('.results').innerText;
+            navigator.clipboard.writeText(results);
         }
     </script>
 </body>
+</html>
