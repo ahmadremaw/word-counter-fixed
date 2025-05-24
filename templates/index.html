@@ -1,39 +1,31 @@
-{% extends "layout.html" %}
-{% block content %}
+<body>
+    <button class="menu-toggle" onclick="toggleSidebar()">☰ القائمة</button>
 
-<!-- زر القائمة -->
-<button id="menu-toggle">القائمة</button>
-<!-- القائمة الجانبية -->
-<nav id="side-menu">
-    <ul>
-        <li><a href="/">الرئيسية</a></li>
-        <li><a href="/counter">عداد الكلمات</a></li>
-        <li><a href="/about">معلومات عنا</a></li>
-    </ul>
-</nav>
+    <!-- Overlay -->
+    <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
 
-<h1>عداد الكلمات</h1>
-<form method="POST">
-    <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea>
-    <button type="submit">احسب الكلمات</button>
-</form>
+    <div class="layout">
+        <nav class="sidebar" id="sidebar">
+            <h2>القائمة</h2>
+            <ul>
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/pages/word-counter">عداد الكلمات</a></li>
+                <li><a href="/about">عن المشروع</a></li>
+                <li><a href="/contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
 
-{% if word_count is not none %}
-    <div class="result">
-        عدد الكلمات: <strong>{{ word_count }}</strong>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
     </div>
-{% endif %}
 
-<!-- كود JavaScript لزر القائمة -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const menuToggle = document.getElementById("menu-toggle");
-        const sideMenu = document.getElementById("side-menu");
-
-        menuToggle.addEventListener("click", function () {
-            sideMenu.style.display = (sideMenu.style.display === "block") ? "none" : "block";
-        });
-    });
-</script>
-
-{% endblock %}
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
+</body>
