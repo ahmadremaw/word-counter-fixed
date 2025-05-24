@@ -1,13 +1,39 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<!-- زر القائمة -->
+<button id="menu-toggle">القائمة</button>
+<!-- القائمة الجانبية -->
+<nav id="side-menu">
+    <ul>
+        <li><a href="/">الرئيسية</a></li>
+        <li><a href="/counter">عداد الكلمات</a></li>
+        <li><a href="/about">معلومات عنا</a></li>
+    </ul>
+</nav>
+
 <h1>عداد الكلمات</h1>
 <form method="POST">
     <textarea name="text" placeholder="اكتب النص هنا...">{{ text }}</textarea>
     <button type="submit">احسب الكلمات</button>
 </form>
+
 {% if word_count is not none %}
     <div class="result">
         عدد الكلمات: <strong>{{ word_count }}</strong>
     </div>
 {% endif %}
+
+<!-- كود JavaScript لزر القائمة -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuToggle = document.getElementById("menu-toggle");
+        const sideMenu = document.getElementById("side-menu");
+
+        menuToggle.addEventListener("click", function () {
+            sideMenu.style.display = (sideMenu.style.display === "block") ? "none" : "block";
+        });
+    });
+</script>
+
 {% endblock %}
